@@ -4,21 +4,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from time import perf_counter
+from time import perf_counter, time, localtime, strftime
 from email.mime.text import MIMEText
 import smtplib, ssl
 import threading
 import json
 
 start_time = perf_counter()
-
-# Stewardship Intern     rowid: recJWyjTA36Ezl1oY
-# Political Field Intern rowid: recYZYQfxy931ijns
-# CASAC Intern           rowid: recXm0qxVeYMKA9d3
+datetime = strftime("%Y-%m-%d %H:%M:%S", localtime(time()))
 
 HEIGHT = 32
-MAX_ITERATIONS = 10 # failsafe if program never reaches stop_rowid
-SAVE_ROWS = 5 # generally should be less than ^
+MAX_ITERATIONS = 10 # failsafe if stop_rowid = []
+SAVE_ROWS = 5 # rows to save for to check aganist for next run
 
 port = 465
 smtp_server = "smtp.gmail.com"
@@ -89,7 +86,7 @@ def add_internships(link):
 
         row_data = append_data(driver, row)
 
-        if (row_data[5] in stop_data) or (row_count == MAX_ITERATIONS and stop_data == []   ): # row_data[5] = apply link
+        if (row_data[5] in stop_data) or (row_count == MAX_ITERATIONS and stop_data == []): # row_data[5] = apply link
             finished = True
         else:
             local_dict[row.get_attribute("data-rowid")] = append_data(driver, row)
@@ -119,15 +116,12 @@ for link in internship_links:
 with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
-# --- send email ---
-message = f"""\
-Subject: {len(internships)} new internships found
+message_content = """\
 
-This is a test
 """
 
 message = MIMEText("hellow world")
-message['Subject'] = "this is the subject"
+message['Subject'] = f"{len(internships)} found from {len(internship_links)} at {datetime}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
