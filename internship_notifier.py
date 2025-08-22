@@ -23,6 +23,7 @@ port = 465
 smtp_server = "smtp.gmail.com"
 USERNAME = "nishad.wajge@gmail.com" # os.environ.get('USER_EMAIL')
 PASSWORD = "yqco udml qdmn pfri" # os.environ.get('USER_PASSWORD')
+print(USERNAME, PASSWORD)
 
 internships = {}
 save_data = {}
