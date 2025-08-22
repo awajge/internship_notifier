@@ -20,6 +20,13 @@
         "https://jobright.ai/jobs/info/68a7bd6833dd7158bbca9260?utm_source=1099&utm_campaign=Software%20Engineer",
         "https://jobright.ai/jobs/info/68a7ddc0d627244576e2f353?utm_source=1099&utm_campaign=Software%20Engineer"
     ],
+    "https://www.intern-list.com/?k=da": [
+        "https://jobright.ai/jobs/info/68a7e25d758f2e4ac3fef02a?utm_source=1099&utm_campaign=Data%20Analysis",
+        "https://jobright.ai/jobs/info/68a7a5fd33dd7158bbca886b?utm_source=1099&utm_campaign=Data%20Analysis",
+        "https://jobright.ai/jobs/info/68a7c597d627244576e2ec02?utm_source=1099&utm_campaign=Data%20Analysis",
+        "https://jobright.ai/jobs/info/68a7c06bd627244576e2e6e7?utm_source=1099&utm_campaign=Data%20Analysis",
+        "https://jobright.ai/jobs/info/68a7b22d758f2e4ac3fedbfa?utm_source=1099&utm_campaign=Data%20Analysis"
+    ],
     "https://www.intern-list.com/?k=pm": [
         "https://jobright.ai/jobs/info/68a7ca30d627244576e2ed8d?utm_source=1099&utm_campaign=Product%20Management",
         "https://jobright.ai/jobs/info/68a7a6cd33dd7158bbca894f?utm_source=1099&utm_campaign=Product%20Management",
@@ -33,12 +40,5 @@
         "https://jobright.ai/jobs/info/68a73dea33dd7158bbca5797?utm_source=1099&utm_campaign=Business%20Analyst",
         "https://jobright.ai/jobs/info/68a66d39b6a3617d7fa776ed?utm_source=1099&utm_campaign=Business%20Analyst",
         "https://jobright.ai/jobs/info/68a666c1758f2e4ac3fe4ad5?utm_source=1099&utm_campaign=Business%20Analyst"
-    ],
-    "https://www.intern-list.com/?k=da": [
-        "https://jobright.ai/jobs/info/68a7e25d758f2e4ac3fef02a?utm_source=1099&utm_campaign=Data%20Analysis",
-        "https://jobright.ai/jobs/info/68a7a5fd33dd7158bbca886b?utm_source=1099&utm_campaign=Data%20Analysis",
-        "https://jobright.ai/jobs/info/68a7c597d627244576e2ec02?utm_source=1099&utm_campaign=Data%20Analysis",
-        "https://jobright.ai/jobs/info/68a7c06bd627244576e2e6e7?utm_source=1099&utm_campaign=Data%20Analysis",
-        "https://jobright.ai/jobs/info/68a7b22d758f2e4ac3fedbfa?utm_source=1099&utm_campaign=Data%20Analysis"
     ]
 }
