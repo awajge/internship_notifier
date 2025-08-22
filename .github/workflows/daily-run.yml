@@ -1,8 +1,11 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+    schedule:
+        - cron: '0 0 * * *'
 jobs:
-  Explore-GitHub-Actions:
+  run_internship_notifier:
+    name: Run Internship Notifierpip
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."

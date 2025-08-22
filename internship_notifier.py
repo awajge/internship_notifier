@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -20,8 +19,6 @@ SAVE_ROWS = 5 # generally should be less than ^
 
 internships = {}
 save_data = {}
-date = datetime.today().strftime("%Y-%m-%d")
-date = "2025-08-20"
 
 options = Options()
 options.add_argument("--headless=new")
