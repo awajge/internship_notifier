@@ -30,7 +30,7 @@ jobs:
 
       - name: Run Internship Notifier
         env:
-          USER_EMAIL: ${{ secrets.USER-EMAIL }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD:  ${{ secrets.USER_PASSWORD }}
         run: python internship_notifier.py
 
