@@ -18,21 +18,10 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - name: Install Chromedriver
-        run: |
-          sudo apt-get install -y chromium-chromedriver
-          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver || true
-
-      - name: Debug env
-        env:
-          USER_EMAIL: ${{ secrets.USER_EMAIL }}
-          USER_PASSWORD:  ${{ secrets.USER_PASSWORD }}
-        run: echo "USER_EMAIL is set to '${USER_EMAIL}', USER_PASSWORD is set to '${USER_PASSWORD}'"
+      - uses: browser-actions/setup-chrome@v2
+        with:
+          install-dependencies: true
+          install-chromedriver: true
 
       - name: Run Internship Notifier
         env:
