@@ -1,9 +1,11 @@
 import json
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import smtplib, ssl
 import threading
 from time import perf_counter
 
@@ -16,6 +18,11 @@ start_time = perf_counter()
 HEIGHT = 32
 MAX_ITERATIONS = 10 # failsafe if program never reaches stop_rowid
 SAVE_ROWS = 5 # generally should be less than ^
+
+port = 465
+smtp_server = "smtp.gmail.com"
+USERNAME = os.environ.get('USER_EMAIL')
+PASSWORD = os.environ.get('USER_PASSWORD')
 
 internships = {}
 save_data = {}
@@ -109,5 +116,15 @@ with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
 # --- send email ---
+message = """\
+Subject: Github Test Report
+
+This is a test
+"""
+
+context = ssl.create_default_context()
+with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+    server.login(USERNAME, PASSWORD)
+    server.sendmail(USERNAME, USERNAME, message)
 
 print(f"Sent email in {(perf_counter() - start_time):.3f} seconds")

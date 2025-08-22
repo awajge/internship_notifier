@@ -1,0 +1,22 @@
+name: daily-report
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Run Internship Notifier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Run Internship Notifier
+        env:
+          USER_EMAIL: ${{ secrets.USER-EMAIL }}
+          USER_PASSWORD:  ${{ secrets.USER_PASSWORD }}
+        run: python internship_notifier.py
+
