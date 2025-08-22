@@ -1,13 +1,14 @@
-import json
 import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from time import perf_counter
+from email.mime.text import MIMEText
 import smtplib, ssl
 import threading
-from time import perf_counter
+import json
 
 start_time = perf_counter()
 
@@ -21,9 +22,9 @@ SAVE_ROWS = 5 # generally should be less than ^
 
 port = 465
 smtp_server = "smtp.gmail.com"
-USERNAME = "nishad.wajge@gmail.com" # os.environ.get('USER_EMAIL')
-PASSWORD = "ffzhapjmzpojjzmj" # os.environ.get('USER_PASSWORD')
-print(USERNAME, PASSWORD)
+USERNAME = os.environ.get('USER_EMAIL')
+PASSWORD = os.environ.get('USER_PASSWORD')
+RECIPIENTS = os.environ.get('RECIPIENTS')
 
 internships = {}
 save_data = {}
@@ -119,15 +120,20 @@ with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
 # --- send email ---
-message = """\
-Subject: Github Test Report
+message = f"""\
+Subject: {len(internships)} new internships found
 
 This is a test
 """
 
+message = MIMEText("hellow world")
+message['Subject'] = "this is the subject"
+message["From"] = USERNAME
+message["To"] = RECIPIENTS
+
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
     server.login(USERNAME, PASSWORD)
-    server.sendmail(USERNAME, USERNAME, message)
+    server.sendmail(USERNAME, RECIPIENTS, message.as_string())
 
 print(f"Sent email in {(perf_counter() - start_time):.3f} seconds")
