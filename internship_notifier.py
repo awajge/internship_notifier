@@ -29,6 +29,8 @@ save_data = {}
 
 options = Options()
 options.add_argument("--headless=new")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 
 def get_innertext(row, columnindex, div_class="truncate", multiple=False):
     matches = [
