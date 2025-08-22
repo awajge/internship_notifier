@@ -93,12 +93,12 @@ def add_internships(link):
 
     internships.update(local_dict)
 
-    print(f'Thread of "{link}" in {(perf_counter() - start_time):.3f} seconds')
+    print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
     
-
-internship_links = ["https://www.intern-list.com/", "https://www.intern-list.com/?k=eng", "https://www.intern-list.com/?k=da",
-                    "https://www.intern-list.com/?k=aiml", "https://www.intern-list.com/?k=cst"]
+with open("links.json", "r") as f:
+    try: internship_links = json.load(f)
+    except: internship_links = []
 
 threads = []
 for link in internship_links:
@@ -111,8 +111,6 @@ for link in internship_links:
 with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
-for key, value in internships.items():
-    print(f"{key}: {value}")
-print(len(internships))
+# --- send email ---
 
-print(f"Processed in {(perf_counter() - start_time):.3f} seconds")
+print(f"Sent email in {(perf_counter() - start_time):.3f} seconds")
