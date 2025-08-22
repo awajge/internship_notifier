@@ -22,7 +22,7 @@ SAVE_ROWS = 5 # generally should be less than ^
 port = 465
 smtp_server = "smtp.gmail.com"
 USERNAME = "nishad.wajge@gmail.com" # os.environ.get('USER_EMAIL')
-PASSWORD = "yqco udml qdmn pfri" # os.environ.get('USER_PASSWORD')
+PASSWORD = "ffzhapjmzpojjzmj" # os.environ.get('USER_PASSWORD')
 print(USERNAME, PASSWORD)
 
 internships = {}
