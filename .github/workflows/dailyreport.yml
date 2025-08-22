@@ -27,5 +27,6 @@ jobs:
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD:  ${{ secrets.USER_PASSWORD }}
+          RECIPIENTS: ${{ secrets.RECIPIENTS }}
         run: python internship_notifier.py
 
