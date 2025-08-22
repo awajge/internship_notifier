@@ -64,6 +64,8 @@ def add_internships(link):
     wait = WebDriverWait(driver, 20)
 
     driver.get(link)
+    list_name = driver.find_element(By.CSS_SELECTOR, "h2.active")
+
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
     driver.get(airtable_url)
 
@@ -95,7 +97,7 @@ def add_internships(link):
 
     save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
-    internships.update(local_dict)
+    internships[list_name] = list(local_dict.values())
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
@@ -115,9 +117,7 @@ for link in internship_links:
 with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
-message_content = """\
-
-"""
+message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message = MIMEText("hellow world")
