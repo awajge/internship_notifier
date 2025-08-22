@@ -11,7 +11,6 @@ import threading
 import json
 
 start_time = perf_counter()
-datetime = strftime("%Y-%m-%d %H:%M:%S", localtime(time()))
 
 HEIGHT = 32
 MAX_ITERATIONS = 10 # failsafe if stop_rowid = []
@@ -119,9 +118,10 @@ with open("save_data.json", "w") as f:
 message_content = """\
 
 """
+message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message = MIMEText("hellow world")
-message['Subject'] = f"{len(internships)} found from {len(internship_links)} at {datetime}"
+message['Subject'] = f"{len(internships)} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
