@@ -15,13 +15,13 @@ jobs:
         with:
           python-version: 3.x
 
-      - name: Install Dependencies
-        run: pip install -r requirements.txt
-
       - uses: browser-actions/setup-chrome@v2
         with:
           install-dependencies: true
           install-chromedriver: true
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
 
       - name: Run Internship Notifier
         env:
@@ -29,4 +29,16 @@ jobs:
           USER_PASSWORD:  ${{ secrets.USER_PASSWORD }}
           RECIPIENTS: ${{ secrets.RECIPIENTS }}
         run: python internship_notifier.py
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git commit -m "Automated commit from GitHub Actions"
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin main
 
