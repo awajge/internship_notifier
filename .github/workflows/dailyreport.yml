@@ -34,6 +34,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          git add save_data.json
           git commit -m "Automated commit from GitHub Actions"
 
       - name: Push changes
