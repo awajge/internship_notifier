@@ -90,7 +90,7 @@ def add_internships(link):
         if (row_data[5] in stop_data) or (row_count == MAX_ITERATIONS and stop_data == []): # row_data[5] = apply link
             finished = True
         else:
-            local_dict[row.get_attribute("data-rowid")] = append_data(driver, row)
+            local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
 
