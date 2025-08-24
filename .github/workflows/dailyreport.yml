@@ -33,15 +33,9 @@ jobs:
           RECIPIENTS: ${{ secrets.RECIPIENTS }}
         run: python internship_notifier.py
 
-      - name: Commit Changes
+      - name: Commit & Push Changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add save_data.json
-          git commit -m "Automated commit from GitHub Actions"
-
-      - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: git push origin main
-
+          git commit -am "Automated commit from GitHub Actions"
+          git push
