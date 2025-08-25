@@ -110,7 +110,7 @@ def format(data):
     line += truncate(data[1], 15) + "     "
     line += truncate(data[2], 10) + "     "
     line += truncate(data[3], 20) + "     "
-    line += truncate(data[4], 25) + "     "
+    line += truncate(", ".join(str(tag) for tag in data[4]), 25) + "     "
 
     return line
 
