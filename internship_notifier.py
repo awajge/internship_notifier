@@ -67,7 +67,7 @@ def add_internships(link):
     wait = WebDriverWait(driver, 20)
 
     driver.get(link)
-    list_name = driver.find_element(By.CSS_SELECTOR, "h2.active")
+    list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
     driver.get(airtable_url)
@@ -100,7 +100,7 @@ def add_internships(link):
 
     # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
-    internships[link] = list(local_dict.values())
+    internships[list_name] = list(local_dict.values())
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
@@ -138,9 +138,9 @@ message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message_text = ""
-for link in internships.keys():
-    message_text += f"\n===== From: {link} =====\n\n"
-    for data in internships[link]:
+for category in internships.keys():
+    message_text += f"\n===== From: {category} =====\n\n"
+    for data in internships[category]:
         message_text += format(data) + "\n"
 
 message = MIMEText(f'''<pre style="font-family: monospace; font-size: small;">{message_text}</pre>''', 'html')
