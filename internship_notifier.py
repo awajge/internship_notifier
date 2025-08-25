@@ -121,7 +121,7 @@ message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message = MIMEText("hellow world")
-message['Subject'] = f"{len(internships.values())} internships found from {len(internship_links)} links {message_datetime}"
+message['Subject'] = f"{sum(map(len, internships.values()))} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
