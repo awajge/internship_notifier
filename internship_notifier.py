@@ -106,7 +106,7 @@ def add_internships(link):
     driver.close()
 
 def format(data):
-    link_sub = truncate(data[0], 50, True)
+    link_sub = truncate(data[0], 50, False)
     line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (50 - len(link_sub)))   # clickable link; 79 = 50 + html chars
     line += truncate(data[1], 15)
     line += truncate(data[2], 10)
