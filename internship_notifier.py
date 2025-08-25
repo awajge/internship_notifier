@@ -50,7 +50,6 @@ def append_data(driver, row): # data to be emailed
     tags = get_innertext(row, find_columnindex(driver, "Company Industry"), "flex-auto.truncate-pre", True)
     apply_link = row.find_element(By.CSS_SELECTOR, "span.truncate.noevents").find_element(By.XPATH, "..").get_attribute("href") # get parent's href
 
-    if "Multi Location" in date: date = "Multi Location"
     if tags == []: tags.append("None")
 
     return (title, company, date, location, tags, apply_link)
@@ -139,8 +138,9 @@ message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message_text = ""
-for link_data in internships.values():
-    for data in link_data:
+for link in internships.keys():
+    message_text += f"===== From: {link} =====\n\n"
+    for data in internships[link]:
         message_text += format(data) + "\n"
 
 message = MIMEText(f'''<pre style="font-family: monospace; font-size: small;">{message_text}</pre>''', 'html')
