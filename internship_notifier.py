@@ -99,9 +99,9 @@ def add_internships(link):
         row_count += 1
 
 
-    # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
+    save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
-    internships[(list_name, airtable_url)] = list(local_dict.values())
+    internships[(list_name, link)] = list(local_dict.values())
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
@@ -109,10 +109,10 @@ def add_internships(link):
 def format(data):
     link_sub = truncate(data[0], 50).strip()
     line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (50 + GAP - len(link_sub))) # clickable position title
-    line += "<span>" + truncate(data[1], 15) # span - disable making unwanted clickable links
+    line += truncate(data[1], 15) # span - disable making unwanted clickable links
     line += truncate(data[2], 10)
     line += truncate(data[3], 20)
-    line += truncate(", ".join(str(tag) for tag in data[4]), 25).strip() + "</span>"
+    line += truncate(", ".join(str(tag) for tag in data[4]), 25).strip()
 
     return line
 
