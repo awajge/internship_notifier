@@ -100,7 +100,7 @@ def add_internships(link):
 
     # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
-    internships[list_name] = list(local_dict.values())
+    internships[link] = list(local_dict.values())
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
