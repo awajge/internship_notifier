@@ -51,6 +51,7 @@ def append_data(driver, row): # data to be emailed
     tags = get_innertext(row, find_columnindex(driver, "Company Industry"), "flex-auto.truncate-pre", True)
     apply_link = row.find_element(By.CSS_SELECTOR, "span.truncate.noevents").find_element(By.XPATH, "..").get_attribute("href") # get parent's href
 
+    if "Multi Location" in location: location = "Multi Location"
     if tags == []: tags.append("None")
 
     return (title, company, date, location, tags, apply_link)
@@ -112,7 +113,7 @@ def format(data):
     line += truncate(data[1], 15) # span - disable making unwanted clickable links
     line += truncate(data[2], 10)
     line += truncate(data[3], 20)
-    line += truncate(", ".join(str(tag) for tag in data[4]), 25, False).strip()
+    line += truncate(", ".join(str(tag) for tag in data[4]), 29, False).strip()
 
     return line
 
