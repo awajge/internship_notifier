@@ -108,11 +108,11 @@ def add_internships(link):
 
 def format(data):
     link_sub = truncate(data[0], 50).strip()
-    line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (55 - len(link_sub)))   # clickable link; 79 = 50 + html chars
-    line += truncate(data[1], 15)
+    line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (50 + GAP - len(link_sub))) # clickable position title
+    line += "<span>" + truncate(data[1], 15) # span - disable making unwanted clickable links
     line += truncate(data[2], 10)
     line += truncate(data[3], 20)
-    line += truncate(", ".join(str(tag) for tag in data[4]), 25).strip()
+    line += truncate(", ".join(str(tag) for tag in data[4]), 25).strip() + "</span>"
 
     return line
 
@@ -140,11 +140,11 @@ message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message_text = ""
 for link_data in internships.keys():
-    message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">"{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> =====\n\n'
+    message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> =====\n\n'
     for data in internships[link_data]:
         message_text += format(data) + "\n"
 
-message = MIMEText(f'''<pre style="font-family: monospace; font-size: small;">{message_text}</pre>''', 'html')
+message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
 message['Subject'] = f"{sum(map(len, internships.values()))} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
