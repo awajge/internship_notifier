@@ -126,7 +126,7 @@ message = MIMEText('''<html>
       hello world
     </span>
   </body>
-</html>''')
+</html>''', 'html')
 message['Subject'] = f"{sum(map(len, internships.values()))} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
