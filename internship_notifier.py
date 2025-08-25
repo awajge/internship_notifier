@@ -143,7 +143,7 @@ for link_data in internships.values():
     for data in link_data:
         message_text += format(data) + "\n"
 
-message = MIMEText(f'''<pre><span style="font-family: Courier New, Courier, monospace;">{message_text}</span></pre>''', 'html')
+message = MIMEText(f'''<pre style="font-family: monospace; font-size: small;">{message_text}</pre>''', 'html')
 
 message['Subject'] = f"{sum(map(len, internships.values()))} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
