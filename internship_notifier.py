@@ -108,7 +108,7 @@ def add_internships(link):
 
 def format(data):
     link_sub = truncate(data[0], 50).strip()
-    line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (50 + GAP//2 - len(link_sub)) + '|' + ' ' * (50 + GAP//2 - len(link_sub))) # clickable position title
+    line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (50 + GAP//2 - len(link_sub)) + '|' + ' ' * GAP//2) # clickable position title
     line += truncate(data[1], 15) # span - disable making unwanted clickable links
     line += truncate(data[2], 10)
     line += truncate(data[3], 20)
