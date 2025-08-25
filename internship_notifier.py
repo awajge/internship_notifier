@@ -121,7 +121,7 @@ message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message = MIMEText("hellow world")
-message['Subject'] = f"{len(internships)} internships found from {len(internship_links)} links {message_datetime}"
+message['Subject'] = f"{sum(map(len, internships))} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
@@ -130,4 +130,4 @@ with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
     server.login(USERNAME, PASSWORD)
     server.sendmail(USERNAME, [e.strip() for e in RECIPIENTS.split(",")], message.as_string())
 
-print(f"Sent email in {(perf_counter() - start_time):.3f} seconds")
+print(f"Message sent in {(perf_counter() - start_time):.3f} seconds")
