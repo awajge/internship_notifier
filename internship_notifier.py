@@ -99,7 +99,7 @@ def add_internships(link):
         row_count += 1
 
 
-    save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
+    # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
     internships[(list_name, link)] = list(local_dict.values())
 
