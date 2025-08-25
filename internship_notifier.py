@@ -22,7 +22,7 @@ USERNAME = os.environ.get('USER_EMAIL')
 PASSWORD = os.environ.get('USER_PASSWORD')
 RECIPIENTS = os.environ.get('RECIPIENTS')
 
-internships = {}
+internships = {} # link: [title, company, date, location, tags, apply_link]
 save_data = {}
 
 options = Options()
@@ -48,6 +48,9 @@ def append_data(driver, row): # data to be emailed
     location = get_innertext(row, find_columnindex(driver, "Location"))
     tags = get_innertext(row, find_columnindex(driver, "Company Industry"), "flex-auto.truncate-pre", True)
     apply_link = row.find_element(By.CSS_SELECTOR, "span.truncate.noevents").find_element(By.XPATH, "..").get_attribute("href") # get parent's href
+
+    if "Multi Location" in date: date = "Multi Location"
+    if tags == []: tags.append("None")
 
     return (title, company, date, location, tags, apply_link)
 
@@ -101,7 +104,19 @@ def add_internships(link):
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
-    
+
+def format(data):
+    line = f'<a href="{data[5]}" target="_blank">' + truncate(data[0], 50) + "     " + "</a>" # clickable link
+    line += truncate(data[1], 15) + "     "
+    line += truncate(data[2], 10) + "     "
+    line += truncate(data[3], 20) + "     "
+    line += truncate(data[4], 25) + "     "
+
+    return line
+
+def truncate(string, num):
+    return string if len(string) < 50 else string[:num] + "..."
+
 with open("links.json", "r") as f:
     try: internship_links = json.load(f)
     except: internship_links = []
@@ -117,16 +132,16 @@ for link in internship_links:
 with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
+# 0 character max - 5 space, date, location (20), company (15), title (50), tags (25)
 message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
-message = MIMEText('''<html>
-  <body>
-    <span style="font-family: Courier New, Courier, monospace;">
-      hello world
-    </span>
-  </body>
-</html>''', 'html')
+message_text = ""
+for data in internships.values():
+    message_text += format(data) + "\n"
+
+message = MIMEText(f'''<span style="font-family: Courier New, Courier, monospace;">{message_text}</span>''', 'html')
+
 message['Subject'] = f"{sum(map(len, internships.values()))} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
