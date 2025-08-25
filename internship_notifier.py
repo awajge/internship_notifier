@@ -139,7 +139,9 @@ message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message_text = ""
 for link in internships.keys():
-    message_text += f"===== From: {link} =====\n\n"
+    message_text += link
+    print(link)
+    message_text += f"\n===== From: {link} =====\n\n"
     for data in internships[link]:
         message_text += format(data) + "\n"
 
