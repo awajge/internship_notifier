@@ -106,16 +106,16 @@ def add_internships(link):
     driver.close()
 
 def format(data):
-    line = f'<a href="{data[5]}" target="_blank">' + truncate(data[0], 50) + "     " + "</a>" # clickable link
-    line += truncate(data[1], 15) + "     "
-    line += truncate(data[2], 10) + "     "
-    line += truncate(data[3], 20) + "     "
-    line += truncate(", ".join(str(tag) for tag in data[4]), 25) + "     "
+    line = (f'<a href="{data[5]}" target="_blank">' + truncate(data[0], 50, False) + "</a>").ljust(79) # clickable link; 79 = 50 + html chars
+    line += truncate(data[1], 15)
+    line += truncate(data[2], 10)
+    line += truncate(data[3], 20)
+    line += truncate(", ".join(str(tag) for tag in data[4]), 25)
 
     return line
 
-def truncate(string, num):
-    return string if len(string) < 50 else string[:num] + "..."
+def truncate(string, num, trailing=True):
+    return (string.ljust(num) if trailing else string) if len(string) < num else string[:num] + "..."
 
 with open("links.json", "r") as f:
     try: internship_links = json.load(f)
