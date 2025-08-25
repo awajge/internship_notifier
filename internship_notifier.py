@@ -117,7 +117,7 @@ def format(data):
     return line
 
 def truncate(string, num):
-    return (string if len(string) < num else string[:num]).ljust(num + GAP)
+    return (string if len(string) < num else string[:num]).ljust(num + GAP//2) + "|" + " " * (GAP//2)
 
 with open("links.json", "r") as f:
     try: internship_links = json.load(f)
