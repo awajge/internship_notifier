@@ -22,7 +22,7 @@ USERNAME = os.environ.get('USER_EMAIL')
 PASSWORD = os.environ.get('USER_PASSWORD')
 RECIPIENTS = os.environ.get('RECIPIENTS')
 
-internships = {} # link: [title, company, date, location, tags, apply_link]
+internships = {} # link: [[title, company, date, location, tags, apply_link], [...] ...]
 save_data = {}
 
 options = Options()
@@ -137,8 +137,9 @@ message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message_text = ""
-for data in internships.values():
-    message_text += format(data) + "\n"
+for link_data in internships.values():
+    for data in link_data:
+        message_text += format(data) + "\n"
 
 message = MIMEText(f'''<span style="font-family: Courier New, Courier, monospace;">{message_text}</span>''', 'html')
 
