@@ -120,7 +120,13 @@ with open("save_data.json", "w") as f:
 message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
-message = MIMEText('<font face="Courier New, Courier, monospace">hellow world</font>')
+message = MIMEText('''<html>
+  <body>
+    <span style="font-family: Courier New, Courier, monospace;">
+      hello world
+    </span>
+  </body>
+</html>''')
 message['Subject'] = f"{sum(map(len, internships.values()))} internships found from {len(internship_links)} links {message_datetime}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
