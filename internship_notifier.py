@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import perf_counter, time, localtime, strftime
+from re import sub
 from email.mime.text import MIMEText
 import smtplib, ssl
 import threading
@@ -100,7 +101,7 @@ def add_internships(link):
 
     # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
-    internships[list_name] = list(local_dict.values())
+    internships[(list_name, link)] = list(local_dict.values())
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
@@ -138,9 +139,9 @@ message_content = 5
 message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message_text = ""
-for category in internships.keys():
-    message_text += f"\n===== From: {category} =====\n\n"
-    for data in internships[category]:
+for link_data in internships.keys():
+    message_text += f'\n===== From: <a href="{link_data[1]} target="_blank">"{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> =====\n\n'
+    for data in internships[link_data]:
         message_text += format(data) + "\n"
 
 message = MIMEText(f'''<pre style="font-family: monospace; font-size: small;">{message_text}</pre>''', 'html')
