@@ -15,6 +15,7 @@ start_time = perf_counter()
 HEIGHT = 32
 MAX_ITERATIONS = 10 # failsafe if stop_rowid = []
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
+GAP = 5
 
 port = 465
 smtp_server = "smtp.gmail.com"
@@ -106,7 +107,7 @@ def add_internships(link):
     driver.close()
 
 def format(data):
-    link_sub = truncate(data[0], 50, False)
+    link_sub = truncate(data[0], 50).strip()
     line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (50 - len(link_sub)))   # clickable link; 79 = 50 + html chars
     line += truncate(data[1], 15)
     line += truncate(data[2], 10)
@@ -115,8 +116,8 @@ def format(data):
 
     return line
 
-def truncate(string, num, trailing=True):
-    return ((string.ljust(num) if trailing else string) if len(string) < num else string[:num]) + "     "
+def truncate(string, num):
+    return (string if len(string) < num else string[:num]).ljust(num + GAP)
 
 with open("links.json", "r") as f:
     try: internship_links = json.load(f)
