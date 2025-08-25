@@ -115,7 +115,8 @@ def format(data):
     return line
 
 def truncate(string, num, trailing=True):
-    return (string.ljust(num) if trailing else string) if len(string) <= num else string[:num] + "..."
+    string = string if len(string) <= num else string[:num] + "..."
+    return string.ljust(num) if trailing else string
 
 with open("links.json", "r") as f:
     try: internship_links = json.load(f)
