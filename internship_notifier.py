@@ -137,7 +137,6 @@ with open("save_data.json", "w") as f:
 
 # 0 character max - 5 space, date, location (20), company (15), title (50), tags (25)
 message_content = 5
-message_datetime = strftime("at %H:%M:%S on %Y-%m-%d", localtime(time()))
 
 message_text = ""
 for link_data in internships.keys():
@@ -147,7 +146,7 @@ for link_data in internships.keys():
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-message['Subject'] = f"{sum(map(len, internships.values()))} internships found from {len(internship_links)} links {message_datetime}"
+message['Subject'] = f"Intern Bot: {sum(map(len, internships.values()))} internships found on {strftime("at %H:%M:%S/%Y-%m-%d", localtime(time()))}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
