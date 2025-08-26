@@ -100,7 +100,7 @@ def add_internships(link):
         row_count += 1
 
 
-    # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
+    save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
     internships[(list_name, link)] = list(local_dict.values())
 
@@ -134,9 +134,6 @@ for link in internship_links:
 
 with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
-
-# 0 character max - 5 space, date, location (20), company (15), title (50), tags (25)
-message_content = 5
 
 message_text = ""
 for link_data in internships.keys():
