@@ -112,8 +112,8 @@ def format(data):
     line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (50 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
     line += truncate(data[1], 25)
     line += truncate(data[2], 10)
-    line += truncate(data[3], 16)
-    line += truncate(", ".join(str(tag) for tag in data[4]), 33, False).strip()
+    line += truncate(data[3], 20)
+    line += truncate(", ".join(str(tag) for tag in data[4]), 40, False).strip()
 
     return line
 
