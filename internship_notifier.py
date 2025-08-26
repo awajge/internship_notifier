@@ -146,7 +146,7 @@ for link_data in internships.keys():
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-message['Subject'] = f"Intern Bot: {sum(map(len, internships.values()))} internships found on {strftime("at %H:%M:%S/%Y-%m-%d", localtime(time()))}"
+message['Subject'] = f"Intern Bot: {sum(map(len, internships.values()))} internships found on {strftime("%Y-%m-%d", localtime(time()))}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
