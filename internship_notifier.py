@@ -145,7 +145,7 @@ with open("save_data.json", "w") as f:
 
 message_text = ""
 for link_data in internships.keys():
-    message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> =====\n\n'
+    message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link_data])}) =====\n\n'
     for data in internships[link_data]:
         message_text += format(data) + "\n"
 
