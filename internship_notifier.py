@@ -14,7 +14,7 @@ import json
 start_time = perf_counter()
 
 HEIGHT = 32
-MAX_ITERATIONS = 10 # failsafe if stop_rowid = []
+MAX_ITERATIONS = 75 # failsafe if stop_rowid = []
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 5
 
@@ -91,8 +91,8 @@ def add_internships(link):
             driver.execute_script(f"arguments[0].scrollTop += {HEIGHT};", scrollable)
 
         row_data = append_data(driver, row)
-
-        if (row_data[5] in stop_data) or (row_count == MAX_ITERATIONS and stop_data == []): # row_data[5] = apply link
+                                            # testing purposes
+        if (row_data[5] in stop_data) or (row_count == 10 and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
             finished = True
         else:
             # driver.get a class index_origin__7NnDG
