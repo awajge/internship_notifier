@@ -6,9 +6,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import perf_counter, time, localtime, strftime
 from re import sub
+from threading import Thread
 from email.mime.text import MIMEText
 import smtplib, ssl
-import threading
 import json
 
 start_time = perf_counter()
@@ -54,13 +54,13 @@ def append_data(driver, row): # data to be emailed
     if "Multi Location" in location: location = "Multi Location"
     if tags == []: tags.append("None")
 
-    return (title, company, date, location, tags, apply_link)
+    return [title, company, date, location, tags, apply_link] # None = future real link
 
 def find_columnindex(driver, category): # column indexes differ per page
     return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../..").get_attribute("data-columnindex")
 
 def add_internships(link):
-    with open("save_data.json", "r") as f:
+    with open("save_data.json", "r") as f: # migrate out of function?
         try: stop_data = json.load(f)[link]
         except: stop_data = []
 
@@ -95,6 +95,7 @@ def add_internships(link):
         if (row_data[5] in stop_data) or (row_count == MAX_ITERATIONS and stop_data == []): # row_data[5] = apply link
             finished = True
         else:
+            # driver.get a class index_origin__7NnDG
             local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
@@ -106,6 +107,13 @@ def add_internships(link):
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
+
+#def check_link(link):
+#    driver = webdriver.Chrome(options=options)
+#    driver.set_window_size(1920, 1080)
+#    wait = WebDriverWait(driver, 20)
+
+
 
 def format(data):
     link_sub = truncate(data[0], 60, False).strip()
@@ -126,7 +134,7 @@ with open("links.json", "r") as f:
 
 threads = []
 for link in internship_links:
-    t = threading.Thread(target=add_internships, args=(link,))
+    t = Thread(target=add_internships, args=(link,))
     threads.append(t)
     t.start()
 
@@ -143,7 +151,7 @@ for link_data in internships.keys():
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-message['Subject'] = f"Intern Bot: {sum(map(len, internships.values()))} internships found on {strftime("%Y-%m-%d", localtime(time()))}"
+message['Subject'] = f"Intern Bot 🤖 : {sum(map(len, internships.values()))} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
