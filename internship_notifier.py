@@ -116,15 +116,15 @@ def add_internships(link):
 
 # data = [title, company, date, location, tags, apply_link]
 def format(data):
-    watched = data[1].strip().lower() in watchlist
+    
     link_sub = truncate(data[0], 60, False).strip()
     line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
     line += truncate(data[1], 25)
     line += truncate(data[2], 10)
     line += truncate(data[3], 20)
     line += truncate(", ".join(str(tag) for tag in data[4]), 40, False).strip()
-    line += "<mark>marked text</mark>"
-
+    
+    line = f"<mark>{line}</mark" if data[1].strip().lower() in watchlist else line
     return line
 
 def truncate(string, num, part=True):
