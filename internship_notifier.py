@@ -122,7 +122,7 @@ def format(data):
     line += truncate(data[1], 25)
     line += truncate(data[2], 10)
     line += truncate(data[3], 20)
-    line += truncate(", ".join(str(tag) for tag in data[4]), 40, False).strip()
+    line += truncate(", ".join(str(tag) for tag in data[4]), 40, False)
 
     line = f"<mark>{line}</mark>" if (data[1].strip() in watchlist) else line
     return line
