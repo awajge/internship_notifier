@@ -124,9 +124,7 @@ def format(data):
     line += truncate(data[3], 20)
     line += truncate(", ".join(str(tag) for tag in data[4]), 40, False).strip()
 
-    line = f"<mark>{line}</mark>" if (data[1].strip().lower() in watchlist) else line
-    line += str(data[1].strip().lower() in watchlist)
-
+    line = f"<mark>{line}</mark>" if (data[1].strip() in watchlist) else line
     return line
 
 def truncate(string, num, part=True):
@@ -151,8 +149,6 @@ message_text = ""
 with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
     except: watchlist = []
-
-message_text.join(watchlist)
 
 for link_data in internships.keys():
     message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link_data])}) =====\n\n'
