@@ -114,14 +114,16 @@ def add_internships(link):
 #    wait = WebDriverWait(driver, 20)
 
 
-
+# data = [title, company, date, location, tags, apply_link]
 def format(data):
+    watched = data[1].strip().lower() in watchlist
     link_sub = truncate(data[0], 60, False).strip()
     line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
     line += truncate(data[1], 25)
     line += truncate(data[2], 10)
     line += truncate(data[3], 20)
     line += truncate(", ".join(str(tag) for tag in data[4]), 40, False).strip()
+    line += "<mark>marked text</mark>"
 
     return line
 
@@ -144,6 +146,10 @@ with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
 message_text = ""
+with open("watchlist.json", "r") as f:
+    try: watchlist = json.load(f)
+    except: watchlist = []
+
 for link_data in internships.keys():
     message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link_data])}) =====\n\n'
     for data in internships[link_data]:
