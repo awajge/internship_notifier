@@ -152,6 +152,8 @@ with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
     except: watchlist = []
 
+message_text.join(watchlist)
+
 for link_data in internships.keys():
     message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link_data])}) =====\n\n'
     for data in internships[link_data]:
