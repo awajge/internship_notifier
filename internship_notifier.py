@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from time import perf_counter, time, localtime, strftime
 from re import sub
 from threading import Thread
@@ -31,6 +32,12 @@ options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
+
+def driver_get(driver, url):
+    try: driver.get(url)
+    except TimeoutException:
+        print(f"Timeout loading {url}, retrying...")
+        driver.get(url)
 
 def get_innertext(row, columnindex, div_class="truncate", multiple=False):
     matches = [
@@ -69,11 +76,11 @@ def add_internships(link):
     driver.set_window_size(1920, 1080) # necessary for tags to be rendered
     wait = WebDriverWait(driver, 20)
 
-    driver.get(link)
+    driver_get(driver, link)
     list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
-    driver.get(airtable_url)
+    driver_get(driver, airtable_url)
 
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")), "timeout on airtable")
 
