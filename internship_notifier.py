@@ -65,6 +65,7 @@ def add_internships(link):
         except: stop_data = []
 
     driver = webdriver.Chrome(options=options)
+    driver.set_page_load_timeout(30)
     driver.set_window_size(1920, 1080) # necessary for tags to be rendered
     wait = WebDriverWait(driver, 20)
 
