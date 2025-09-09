@@ -104,7 +104,7 @@ def add_internships(link):
         row_data = append_data(driver, row)
 
                                             # testing purposes
-        if (row_data[5] in stop_data) or (len(local_dict) and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
+        if (row_data[5] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
             local_dict[row.get_attribute("data-rowid")] = row_data
