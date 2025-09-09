@@ -179,7 +179,7 @@ for link in PRIORITY_LIST + [k for k in internships if k not in PRIORITY_LIST]:
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-message['Subject'] = f"Intern Bot 🤖 : {sum(map(len, internships.values()))} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
+message['Subject'] = f"Intern Bot 🤖 : {sum(map(len, internships.values()[1]))} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
