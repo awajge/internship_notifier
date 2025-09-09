@@ -49,7 +49,7 @@ def get_innertext(driver, row, category, div_class="truncate", multiple=False): 
                     .find_elements(By.CSS_SELECTOR, f"div.{div_class}") \
     ]
 
-    return matches if multiple else matches[0]
+    return matches if multiple else (matches[0] if matches != [] else None)
 
 def append_data(driver, row): # data to be emailed
     row_id = row.get_attribute("data-rowid")
@@ -110,7 +110,7 @@ def add_internships(link):
             company_size = get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre")
             if company_size in WHITELIST_SIZES: local_dict[row.get_attribute("data-rowid")] = row_data
             
-            row_count += 1
+        row_count += 1
 
 
     save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
