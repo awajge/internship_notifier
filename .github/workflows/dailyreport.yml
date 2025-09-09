@@ -20,8 +20,9 @@ jobs:
 
       - uses: browser-actions/setup-chrome@v2
         with:
-          install-dependencies: true
+          chrome-version: 139
           install-chromedriver: true
+          install-dependencies: true
 
       - name: Install Dependencies
         run: pip install -r requirements.txt
