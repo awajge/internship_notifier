@@ -42,10 +42,10 @@ def driver_get(driver, url):
         print(f"Timeout loading {url}, retrying...")
         driver.get(url)
 
-def get_innertext(row, columnindex, div_class="truncate", multiple=False): # multiple=True means a list
+def get_innertext(driver, row, category, div_class="truncate", multiple=False): # multiple=True means a list
     matches = [
         match.get_attribute("innerText")
-        for match in row.find_element(By.CSS_SELECTOR, f'div[data-columnindex="{columnindex}"]') \
+        for match in row.find_element(By.CSS_SELECTOR, f'div[data-columnindex="{find_columnindex(driver, category)}"]') \
                     .find_elements(By.CSS_SELECTOR, f"div.{div_class}") \
     ]
 
@@ -54,11 +54,11 @@ def get_innertext(row, columnindex, div_class="truncate", multiple=False): # mul
 def append_data(driver, row): # data to be emailed
     row_id = row.get_attribute("data-rowid")
     
-    title = get_innertext(driver.find_element(By.CSS_SELECTOR, f'div[data-rowid="{row_id}"]'), find_columnindex(driver, "Position Title")) # in leftPane not right
-    company = get_innertext(row, find_columnindex(driver, "Company"))
-    date = get_innertext(row, find_columnindex(driver, "Date"))
-    location = get_innertext(row, find_columnindex(driver, "Location"))
-    tags = get_innertext(row, find_columnindex(driver, "Company Industry"), "flex-auto.truncate-pre", True)
+    title = get_innertext(driver, driver.find_element(By.CSS_SELECTOR, f'div[data-rowid="{row_id}"]'), "Position Title") # in leftPane not right
+    company = get_innertext(driver, row, "Company")
+    date = get_innertext(driver, row, "Date")
+    location = get_innertext(driver, row, "Location")
+    tags = get_innertext(driver, row, "Company Industry", "flex-auto.truncate-pre", True)
     apply_link = row.find_element(By.CSS_SELECTOR, "span.truncate.noevents").find_element(By.XPATH, "..").get_attribute("href") # get parent's href
 
     if "Multi Location" in location: location = "Multi Location"
@@ -107,7 +107,7 @@ def add_internships(link):
         if (row_data[5] in stop_data) or (row_count == 10 and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
             finished = True # switch while loop condition?
         else:
-            company_size = get_innertext(row, find_columnindex(driver, "Company Size"), "flex-auto.truncate-pre")
+            company_size = get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre")
             if company_size in WHITELIST_SIZES: local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
