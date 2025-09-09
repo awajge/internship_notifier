@@ -20,13 +20,6 @@ SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 5 # between rows
 
 WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
-PRIORITY_LIST = ["https://www.intern-list.com/",
-                 "https://www.intern-list.com/?k=aiml",
-                 "https://www.intern-list.com/?k=da",
-                 "https://www.intern-list.com/?k=cst",
-                 "https://www.intern-list.com/?k=pm",
-                 "https://www.intern-list.com/?k=ba"
-                 ]
 
 port = 465
 smtp_server = "smtp.gmail.com"
@@ -156,7 +149,7 @@ def truncate(string, num, part=True):
     return (string if len(string) < num else string[:num]).ljust(num + GAP//2) + ("|" if part else "") + " " * (GAP//2)
 
 with open("links.json", "r") as f:
-    try: internship_links = json.load(f)
+    try: internship_links = json.load(f) # internships_links doubles as the priority list (is sorted)
     except: internship_links = []
 
 threads = []
@@ -175,7 +168,7 @@ with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
     except: watchlist = []
 
-for link in PRIORITY_LIST + [k for k in internships if k not in PRIORITY_LIST]:
+for link in internship_links + [k for k in internships if k not in internship_links]:
     try: link_data = internships[link]
     except: continue
 
