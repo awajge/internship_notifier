@@ -20,6 +20,13 @@ SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 5 # between rows
 
 WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
+PRIORITY_LIST = ["https://www.intern-list.com/",
+                 "https://www.intern-list.com/?k=aiml",
+                 "https://www.intern-list.com/?k=da",
+                 "https://www.intern-list.com/?k=cst",
+                 "https://www.intern-list.com/?k=pm",
+                 "https://www.intern-list.com/?k=ba"
+                 ]
 
 port = 465
 smtp_server = "smtp.gmail.com"
@@ -27,7 +34,7 @@ USERNAME = os.environ.get('USER_EMAIL')
 PASSWORD = os.environ.get('USER_PASSWORD')
 RECIPIENTS = os.environ.get('RECIPIENTS')
 
-internships = {} # link: [[title, company, date, location, tags, apply_link], [...] ...]
+internships = {} # (name, link): [[title, company, date, location, tags, apply_link], [...] ...]
 save_data = {}
 
 options = Options()
@@ -70,7 +77,7 @@ def find_columnindex(driver, category): # column indexes differ per page
 
 def add_internships(link):
     with open("save_data.json", "r") as f: # migrate out of function?
-        try: stop_data = json.load(f)[link]
+        try: stop_data = json.load(f)[link]["links"]
         except: stop_data = []
 
     driver = webdriver.Chrome(options=options)
@@ -161,7 +168,10 @@ with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
     except: watchlist = []
 
-for link_data in internships.keys():
+for link_data in PRIORITY_LIST + [k for k in internships if k not in PRIORITY_LIST]:
+    try: internships[link_data]
+    except: continue
+    
     message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link_data])}) =====\n\n'
     for data in internships[link_data]:
         message_text += format(data) + "\n"
