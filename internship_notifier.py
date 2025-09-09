@@ -109,8 +109,8 @@ def add_internships(link):
         else:
             company_size = get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre")
             if company_size in WHITELIST_SIZES: local_dict[row.get_attribute("data-rowid")] = row_data
-        
-        row_count += 1
+            
+            row_count += 1
 
 
     save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
