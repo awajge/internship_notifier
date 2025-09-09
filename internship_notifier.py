@@ -79,15 +79,15 @@ def add_internships(link):
     wait = WebDriverWait(driver, 20)
 
     driver_get(driver, link)
-    
-    wait.until(EC.presence_of_element_located(By.ID, "airtable-box"))
+
+    wait.until(EC.presence_of_element_located((By.ID, "airtable-box")))
 
     list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
     driver_get(driver, airtable_url)
 
-    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")), "timeout on airtable")
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")))
 
     scrollable = driver.find_element(By.CSS_SELECTOR, "div.antiscroll-inner")
     elements = driver.find_elements(By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")
