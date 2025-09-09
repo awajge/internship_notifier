@@ -34,7 +34,7 @@ USERNAME = os.environ.get('USER_EMAIL')
 PASSWORD = os.environ.get('USER_PASSWORD')
 RECIPIENTS = os.environ.get('RECIPIENTS')
 
-internships = {} # (name, link): [[title, company, date, location, tags, apply_link], [...] ...]
+internships = {} # link: (name, [[title, company, date, location, tags, apply_link], [...] ...])
 save_data = {}
 
 options = Options()
@@ -70,7 +70,8 @@ def append_data(driver, row): # data to be emailed
     if "Multi Location" in location: location = "Multi Location"
     if tags == []: tags.append("None")
 
-    return [title, company, date, location, tags, apply_link] # None = future real link
+    return [title, company, date, location, tags, apply_link] # more parameter: future real link
+    # return {"title": title, "company": company, "date": date, "location": location, "tags": tags, "apply_link": apply_link}
 
 def find_columnindex(driver, category): # column indexes differ per page
     return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../..").get_attribute("data-columnindex")
@@ -172,7 +173,7 @@ for link in PRIORITY_LIST + [k for k in internships if k not in PRIORITY_LIST]:
     try: link_data = internships[link]
     except: continue
 
-    message_text += f'\n===== From: <a href="{link[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link])}) =====\n\n'
+    message_text += f'\n===== From: <a href="{link[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(link_data[1])}) =====\n\n'
     for data in link_data[1]:
         message_text += format(data) + "\n"
 
