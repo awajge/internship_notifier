@@ -79,14 +79,12 @@ def add_internships(link):
     wait = WebDriverWait(driver, 20)
 
     driver_get(driver, link)
-
     wait.until(EC.presence_of_element_located((By.ID, "airtable-box")))
 
     list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
     driver_get(driver, airtable_url)
-
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")))
 
     scrollable = driver.find_element(By.CSS_SELECTOR, "div.antiscroll-inner")
@@ -106,7 +104,7 @@ def add_internships(link):
         row_data = append_data(driver, row)
 
                                             # testing purposes
-        if (row_data[5] in stop_data) or (row_count == 10 and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
+        if (row_data[5] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
             local_dict[row.get_attribute("data-rowid")] = row_data
