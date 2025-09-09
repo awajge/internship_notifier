@@ -10,6 +10,7 @@ from re import sub
 from threading import Thread
 from email.mime.text import MIMEText
 import smtplib, ssl
+import queue
 import json
 
 start_time = perf_counter()
@@ -39,7 +40,7 @@ def driver_get(driver, url):
         print(f"Timeout loading {url}, retrying...")
         driver.get(url)
 
-def get_innertext(row, columnindex, div_class="truncate", multiple=False):
+def get_innertext(row, columnindex, div_class="truncate", multiple=False): # multiple=True a list
     matches = [
         match.get_attribute("innerText")
         for match in row.find_element(By.CSS_SELECTOR, f'div[data-columnindex="{columnindex}"]') \
@@ -99,17 +100,17 @@ def add_internships(link):
             driver.execute_script(f"arguments[0].scrollTop += {HEIGHT};", scrollable)
 
         row_data = append_data(driver, row)
+
                                             # testing purposes
         if (row_data[5] in stop_data) or (row_count == 10 and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
             finished = True
         else:
-            # driver.get a class index_origin__7NnDG
             local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
 
 
-    # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
+    save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
     internships[(list_name, link)] = list(local_dict.values())
 
