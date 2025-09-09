@@ -18,7 +18,9 @@ start_time = perf_counter()
 HEIGHT = 32
 MAX_ITERATIONS = 75 # failsafe if stop_rowid = []
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
-GAP = 5
+GAP = 5 # between rows
+
+WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
 
 port = 465
 smtp_server = "smtp.gmail.com"
@@ -40,7 +42,7 @@ def driver_get(driver, url):
         print(f"Timeout loading {url}, retrying...")
         driver.get(url)
 
-def get_innertext(row, columnindex, div_class="truncate", multiple=False): # multiple=True a list
+def get_innertext(row, columnindex, div_class="truncate", multiple=False): # multiple=True means a list
     matches = [
         match.get_attribute("innerText")
         for match in row.find_element(By.CSS_SELECTOR, f'div[data-columnindex="{columnindex}"]') \
@@ -103,9 +105,10 @@ def add_internships(link):
 
                                             # testing purposes
         if (row_data[5] in stop_data) or (row_count == 10 and stop_data == []) or (row_count == MAX_ITERATIONS): # row_data[5] = apply link
-            finished = True
+            finished = True # switch while loop condition?
         else:
-            local_dict[row.get_attribute("data-rowid")] = row_data
+            company_size = get_innertext(row, find_columnindex(driver, "Company Size"), "flex-auto.truncate-pre", True)
+            if company_size in WHITELIST_SIZES: local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
 
