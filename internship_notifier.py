@@ -111,7 +111,7 @@ def add_internships(link):
         row_data = append_data(driver, row)
 
                                             # testing purposes: (len(local_dict) == 10 and stop_data == []) or 
-        if (row_data[5] in stop_data) or (len(local_dict) == MAX_ITERATIONS): # row_data[5] = apply link
+        if (row_data[5] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (len(local_dict) == MAX_ITERATIONS): # row_data[5] = apply link
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
             local_dict[row.get_attribute("data-rowid")] = row_data
@@ -121,7 +121,7 @@ def add_internships(link):
 
     save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
-    internships[(list_name, link)] = list(local_dict.values())
+    internships[link] = (list_name, list(local_dict.values()))
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
@@ -168,12 +168,12 @@ with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
     except: watchlist = []
 
-for link_data in PRIORITY_LIST + [k for k in internships if k not in PRIORITY_LIST]:
-    try: internships[link_data]
+for link in PRIORITY_LIST + [k for k in internships if k not in PRIORITY_LIST]:
+    try: link_data = internships[link]
     except: continue
-    
-    message_text += f'\n===== From: <a href="{link_data[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link_data])}) =====\n\n'
-    for data in internships[link_data]:
+
+    message_text += f'\n===== From: <a href="{link[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(internships[link_data])}) =====\n\n'
+    for data in link_data[1]:
         message_text += format(data) + "\n"
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
