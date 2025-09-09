@@ -108,6 +108,7 @@ def add_internships(link):
             finished = True # switch while loop condition?
         else:
             company_size = get_innertext(row, find_columnindex(driver, "Company Size"), "flex-auto.truncate-pre", True)
+            print(company_size)
             if company_size in WHITELIST_SIZES: local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
