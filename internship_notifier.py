@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from time import perf_counter, time, localtime, strftime
+from time import perf_counter, time, localtime, strftime, sleep
 from re import sub
 from threading import Thread
 from email.mime.text import MIMEText
@@ -76,24 +76,30 @@ def append_data(driver, row): # data to be emailed
 def find_columnindex(driver, category): # column indexes differ per page
     return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../..").get_attribute("data-columnindex")
 
-def add_internships(link):
+def add_internships(link, attempts=3):
     with open("save_data.json", "r") as f: # migrate out of function?
         try: stop_data = json.load(f)[link]["links"]
         except: stop_data = []
 
-    driver = webdriver.Chrome(options=options)
-    driver.set_page_load_timeout(30)
-    driver.set_window_size(1920, 1080) # necessary for tags to be rendered
-    wait = WebDriverWait(driver, 20)
+    try:
+        driver = webdriver.Chrome(options=options)
+        driver.set_page_load_timeout(30)
+        driver.set_window_size(1920, 1080) # necessary for tags to be rendered
+        wait = WebDriverWait(driver, 20)
 
-    driver_get(driver, link)
-    wait.until(EC.presence_of_element_located((By.ID, "airtable-box")))
+        driver_get(driver, link)
+        wait.until(EC.presence_of_element_located((By.ID, "airtable-box")))
 
-    list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
+        list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
-    airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
-    driver_get(driver, airtable_url)
-    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")))
+        airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
+        driver_get(driver, airtable_url)
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")))
+    except TimeoutException:
+        if attempts > 0:
+            sleep(5)
+            add_internships(link, attempts+1)
+        else: return
 
     scrollable = driver.find_element(By.CSS_SELECTOR, "div.antiscroll-inner")
     elements = driver.find_elements(By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")
