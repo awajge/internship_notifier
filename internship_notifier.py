@@ -81,7 +81,7 @@ def add_internships(link):
     driver_get(driver, link)
     list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
-    wait.until(EC.presence_of_element_located(By.ID, "airtable-box"))
+    # wait.until(EC.presence_of_element_located(By.ID, "airtable-box"))
 
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
     driver_get(driver, airtable_url)
