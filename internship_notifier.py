@@ -159,7 +159,7 @@ for link in internship_links + [k for k in internships if k not in internship_li
     try: link_data = internships[link]
     except: continue
 
-    message_text += f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(link_data[1])}) =====\n\n'
+    message_text += f'\n===== From: <a href="{link[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(link_data[1])}) =====\n\n'
     for data in link_data[1]:
         message_text += format(data) + "\n"
 
