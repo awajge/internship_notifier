@@ -121,7 +121,6 @@ def add_internships(link, attempts=3):
 #    wait = WebDriverWait(driver, 20)
 
 def format(data):
-    
     link_sub = truncate(data["title"], 60, False).strip()
     line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
     line += truncate(data["company"], 25)
@@ -159,13 +158,13 @@ for link in internship_links + [k for k in internships if k not in internship_li
     try: link_data = internships[link]
     except: continue
 
-    message_text += f'\n===== From: <a href="{link[1]}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data[0]).strip()}</a> ({len(link_data[1])}) =====\n\n'
-    for data in link_data[1]:
+    message_text += f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n'
+    for data in link_data["links"]:
         message_text += format(data) + "\n"
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-message['Subject'] = f"Intern Bot 🤖 : {sum(len(sub[1]) for sub in internships.values())} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
+message['Subject'] = f"Intern Bot 🤖 : {sum(len(data["links"] for data in internships.values()))} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
