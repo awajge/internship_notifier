@@ -17,7 +17,8 @@ start_time = perf_counter()
 HEIGHT = 32
 MAX_ITERATIONS = 75 # failsafe if stop_rowid = []
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
-DELIM = "  |  " # 2 spaces each side, between rows
+GAP = 2
+DELIM = " " * GAP + "|" + " " * GAP
 
 WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
 SPACE = {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40}
@@ -130,8 +131,7 @@ def format(data, on_watchlist):
     return line + "\n"
 
 def truncate(string, num, part=True):
-    return string.ljust(num)[:num] + (DELIM if part else "")
-    # return (string if len(string) < num else string[:num]).ljust(num + GAP//2) + ("|" if part else "") + " " * (GAP//2)
+    return string.ljust(num)[:num] + (DELIM if part else " " * GAP)
 
 with open("links.json", "r") as f:
     try: internship_links = json.load(f) # internships_links doubles as the priority list (is sorted)
