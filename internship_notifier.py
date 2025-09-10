@@ -118,8 +118,9 @@ def add_internships(link):
 #    wait = WebDriverWait(driver, 20)
 
 def format(data, on_watchlist):
-    link_sub = truncate(data["title"], 60 - (2 if on_watchlist else 0), False).strip()
-    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
+    allocated_size = 60 - (2 if on_watchlist else 0)
+    link_sub = truncate(data["title"], allocated_size, False).strip()
+    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (allocated_size + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
     line += truncate(data["company"], 25)
     line += truncate(data["date"], 10)
     line += truncate(data["location"], 20)
