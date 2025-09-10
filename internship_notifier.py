@@ -147,11 +147,11 @@ for link in internship_links:
 with open("save_data.json", "w") as f:
     json.dump(save_data, f, indent=4)
 
-message_text = ""
 with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
     except: watchlist = []
 
+message_text = ""
 for link in internship_links + [k for k in internships if k not in internship_links]:
     try: link_data = internships[link]
     except: continue
@@ -160,7 +160,7 @@ for link in internship_links + [k for k in internships if k not in internship_li
     for data in link_data["links"]:
         priority_entries = []
         if data["company"].strip() in watchlist:  priority_entries.append(format(data, True))
-        else: message_text += format(data, False)
+        else: text_subsection += format(data, False)
 
         text_subsection = "".join(priority_entries) + text_subsection
 
