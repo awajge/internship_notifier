@@ -20,7 +20,7 @@ SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 5 # between rows
 
 WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
-SPACE = {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40} # allocated character space in email
+SPACE = {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40}
 
 port = 465
 smtp_server = "smtp.gmail.com"
@@ -119,12 +119,12 @@ def add_internships(link):
 #    wait = WebDriverWait(driver, 20)
 
 def format(data, on_watchlist):
-    link_sub = truncate(data["title"], SPACE["title"], False).strip()
+    link_sub = truncate(data["title"], 60, False).strip()
     line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
-    line += truncate(data["company"], SPACE["company"])
-    line += truncate(data["date"], SPACE["company"])
-    line += truncate(data["location"], SPACE["location"])
-    line += truncate(", ".join(str(tag) for tag in data["tags"]), SPACE["tags"], False)
+    line += truncate(data["company"], 25)
+    line += truncate(data["date"], 10)
+    line += truncate(data["location"], 20)
+    line += truncate(", ".join(str(tag) for tag in data["tags"]), 40, False)
 
     line = f"<mark>{line}</mark>" if (on_watchlist) else line
     return line + "\n"
