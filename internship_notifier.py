@@ -62,7 +62,7 @@ def append_data(driver, row): # data to be emailed
 def find_columnindex(driver, category): # column indexes differ per page
     return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../..").get_attribute("data-columnindex")
 
-def add_internships(link, attempts=3):
+def add_internships(link):
     with open("save_data.json", "r") as f: # migrate out of function?
         try: stop_data = json.load(f)[link]["links"]
         except: stop_data = []
@@ -79,7 +79,6 @@ def add_internships(link, attempts=3):
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
     driver.get(airtable_url)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")))
-
 
     scrollable = driver.find_element(By.CSS_SELECTOR, "div.antiscroll-inner")
     elements = driver.find_elements(By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")
@@ -120,7 +119,7 @@ def add_internships(link, attempts=3):
 
 def format(data):
     link_sub = truncate(data["title"], 60, False).strip()
-    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
+    line = (f'⭐<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
     line += truncate(data["company"], 25)
     line += truncate(data["date"], 10)
     line += truncate(data["location"], 20)
