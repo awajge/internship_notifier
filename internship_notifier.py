@@ -58,7 +58,7 @@ def append_data(driver, row): # data to be emailed
     if tags == []: tags.append("None")
 
     return [title, company, date, location, tags, apply_link] # more parameter: future real link
-    # return {"title": title, "company": company, "date": date, "location": location, "tags": tags, "apply_link": apply_link}
+    return {"title": title, "company": company, "date": date, "location": location, "tags": tags, "apply_link": apply_link}
 
 def find_columnindex(driver, category): # column indexes differ per page
     return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../..").get_attribute("data-columnindex")
@@ -100,7 +100,7 @@ def add_internships(link, attempts=3):
         row_data = append_data(driver, row)
 
                                             # testing purposes: (len(local_dict) == 10 and stop_data == []) or 
-        if (row_data[5] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (len(local_dict) == MAX_ITERATIONS): # row_data[5] = apply link
+        if (row_data["apply_link"] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (len(local_dict) == MAX_ITERATIONS): # row_data[5] = apply link
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
             local_dict[row.get_attribute("data-rowid")] = row_data
@@ -120,18 +120,16 @@ def add_internships(link, attempts=3):
 #    driver.set_window_size(1920, 1080)
 #    wait = WebDriverWait(driver, 20)
 
-
-# data = [title, company, date, location, tags, apply_link]
 def format(data):
     
-    link_sub = truncate(data[0], 60, False).strip()
-    line = (f'<a href="{data[5]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
-    line += truncate(data[1], 25)
-    line += truncate(data[2], 10)
-    line += truncate(data[3], 20)
-    line += truncate(", ".join(str(tag) for tag in data[4]), 40, False)
+    link_sub = truncate(data["title"], 60, False).strip()
+    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
+    line += truncate(data["company"], 25)
+    line += truncate(data["date"], 10)
+    line += truncate(data["location"], 20)
+    line += truncate(", ".join(str(tag) for tag in data["tags"]), 40, False)
 
-    line = f"<mark>{line}</mark>" if (data[1].strip() in watchlist) else line
+    line = f"<mark>{line}</mark>" if (data["company"].strip() in watchlist) else line
     return line
 
 def truncate(string, num, part=True):
