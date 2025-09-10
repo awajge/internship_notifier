@@ -17,7 +17,7 @@ start_time = perf_counter()
 HEIGHT = 32
 MAX_ITERATIONS = 75 # failsafe if stop_rowid = []
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
-GAP = 5 # between rows
+DELIM = "  |  " # 2 spaces each side, between rows
 
 WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
 SPACE = {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40}
@@ -120,7 +120,7 @@ def add_internships(link):
 
 def format(data, on_watchlist):
     link_sub = truncate(data["title"], SPACE["title"], False).strip()
-    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (SPACE["title"] + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
+    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (SPACE["title"] - len(link_sub)) + DELIM) # clickable position title
     line += truncate(data["company"], SPACE["company"])
     line += truncate(data["date"], SPACE["date"])
     line += truncate(data["location"], SPACE["location"])
@@ -130,7 +130,8 @@ def format(data, on_watchlist):
     return line + "\n"
 
 def truncate(string, num, part=True):
-    return (string if len(string) < num else string[:num]).ljust(num + GAP//2) + ("|" if part else "") + " " * (GAP//2)
+    return string.ljust(num)[:num] + (DELIM if part else "")
+    # return (string if len(string) < num else string[:num]).ljust(num + GAP//2) + ("|" if part else "") + " " * (GAP//2)
 
 with open("links.json", "r") as f:
     try: internship_links = json.load(f) # internships_links doubles as the priority list (is sorted)
