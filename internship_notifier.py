@@ -57,7 +57,7 @@ def append_data(driver, row): # data to be emailed
     if "Multi Location" in location: location = "Multi Location"
     if tags == []: tags.append("None")
 
-    return [title, company, date, location, tags, apply_link] # more parameter: future real link
+    # return [title, company, date, location, tags, apply_link] # more parameter: future real link
     return {"title": title, "company": company, "date": date, "location": location, "tags": tags, "apply_link": apply_link}
 
 def find_columnindex(driver, category): # column indexes differ per page
@@ -100,7 +100,7 @@ def add_internships(link, attempts=3):
         row_data = append_data(driver, row)
 
                                             # testing purposes: (len(local_dict) == 10 and stop_data == []) or 
-        if (row_data["apply_link"] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (len(local_dict) == MAX_ITERATIONS): # row_data[5] = apply link
+        if (row_data["apply_link"] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (len(local_dict) == MAX_ITERATIONS):
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
             local_dict[row.get_attribute("data-rowid")] = row_data
