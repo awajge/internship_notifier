@@ -27,7 +27,7 @@ USERNAME = os.environ.get('USER_EMAIL')
 PASSWORD = os.environ.get('USER_PASSWORD')
 RECIPIENTS = os.environ.get('RECIPIENTS')
 
-internships = {} # link: (name, [[title, company, date, location, tags, apply_link], [...] ...])
+internships = {} # link: (name, [{"title": title, "company" company ...}, {...} ...])
 save_data = {}
 
 options = Options()
@@ -110,7 +110,7 @@ def add_internships(link, attempts=3):
 
     # save_data[link] = ([x[5] for x in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
-    internships[link] = (list_name, list(local_dict.values()))
+    internships[link] = {"category": list_name, "links": list(local_dict.values())}
 
     print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
     driver.close()
