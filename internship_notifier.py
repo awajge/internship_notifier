@@ -156,13 +156,16 @@ for link in internship_links + [k for k in internships if k not in internship_li
     try: link_data = internships[link]
     except: continue
 
-    message_text += f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n'
+    text_subsection = ""
     for data in link_data["links"]:
         priority_entries = []
         if data["company"].strip() in watchlist:  priority_entries.append(format(data, True))
         else: message_text += format(data, False)
 
-        message_text = "".join(priority_entries) + message_text
+        text_subsection = "".join(priority_entries) + text_subsection
+
+    text_subsection = f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n' + text_subsection
+    message_text += text_subsection
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
