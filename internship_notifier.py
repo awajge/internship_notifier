@@ -57,7 +57,6 @@ def append_data(driver, row): # data to be emailed
     if "Multi Location" in location: location = "Multi Location"
     if tags == []: tags.append("None")
 
-    # return [title, company, date, location, tags, apply_link] # more parameter: future real link
     return {"title": title, "company": company, "date": date, "location": location, "tags": tags, "apply_link": apply_link}
 
 def find_columnindex(driver, category): # column indexes differ per page
@@ -69,7 +68,6 @@ def add_internships(link, attempts=3):
         except: stop_data = []
 
     driver = webdriver.Chrome(options=options)
-    driver.set_page_load_timeout(30)
     driver.set_window_size(1920, 1080) # necessary for tags to be rendered
     wait = WebDriverWait(driver, 20)
 
