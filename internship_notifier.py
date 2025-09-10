@@ -164,7 +164,7 @@ for link in internship_links + [k for k in internships if k not in internship_li
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-message['Subject'] = f"Intern Bot 🤖 : {sum(len(data["links"] for data in internships.values()))} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
+message['Subject'] = f"Intern Bot 🤖 : {sum(len(data["links"]) for data in internships.values())} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
 message["From"] = USERNAME
 message["To"] = RECIPIENTS
 
