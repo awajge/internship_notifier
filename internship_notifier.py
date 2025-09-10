@@ -117,15 +117,15 @@ def add_internships(link):
 #    driver.set_window_size(1920, 1080)
 #    wait = WebDriverWait(driver, 20)
 
-def format(data):
+def format(data, on_watchlist):
     link_sub = truncate(data["title"], 60, False).strip()
-    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub)) + '|' + ' ' * (GAP//2)) # clickable position title
+    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (60 + (GAP//2) - len(link_sub) - (2 if on_watchlist else 0)) + '|' + ' ' * (GAP//2)) # clickable position title
     line += truncate(data["company"], 25)
     line += truncate(data["date"], 10)
     line += truncate(data["location"], 20)
     line += truncate(", ".join(str(tag) for tag in data["tags"]), 40, False)
 
-    line = f"⭐{line}" if (data["company"].strip() in watchlist) else line
+    line = f"⭐{line}" if (on_watchlist) else line
     return line
 
 def truncate(string, num, part=True):
@@ -157,7 +157,7 @@ for link in internship_links + [k for k in internships if k not in internship_li
 
     message_text += f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n'
     for data in link_data["links"]:
-        message_text += format(data) + "\n"
+        message_text += format(data, data["company"].strip() in watchlist) + "\n"
 
 message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
