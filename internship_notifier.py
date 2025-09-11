@@ -64,7 +64,7 @@ def append_data(driver, row): # data to be emailed
 def find_columnindex(driver, category): # column indexes differ per page
     return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../..").get_attribute("data-columnindex")
 
-def add_internships(link):
+def add_internships(link, attempts=0):
     with open("save_data.json", "r") as f: # migrate out of function?
         try: stop_data = json.load(f)[link]["links"]
         except: stop_data = []
@@ -79,7 +79,8 @@ def add_internships(link):
     list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
-    driver.get(airtable_url)
+    try: driver.get(airtable_url)
+    except TimeoutError: add_internships(link, attempts+1)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")))
 
     scrollable = driver.find_element(By.CSS_SELECTOR, "div.antiscroll-inner")
@@ -111,7 +112,7 @@ def add_internships(link):
 
     internships[link] = {"category": list_name, "links": list(local_dict.values())}
 
-    print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds')
+    print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds & {attempts} tries')
     driver.close()
 
 #def check_link(link):
