@@ -119,7 +119,7 @@ def add_internships(link):
 #    driver.set_window_size(1920, 1080)
 #    wait = WebDriverWait(driver, 20)
 
-def format(data, on_watchlist):
+def format(data, on_watchlist, in_cali):
     link_sub = truncate(data["title"], SPACE["title"], False).strip()
     line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (SPACE["title"] - len(link_sub)) + DELIM) # clickable position title
     line += truncate(data["company"], SPACE["company"])
@@ -127,6 +127,7 @@ def format(data, on_watchlist):
     line += truncate(data["location"], SPACE["location"])
     line += truncate(", ".join(str(tag) for tag in data["tags"]), SPACE["tags"], False)
 
+    line = f'<span style="background-color: rgba(255, 255, 0, 0.5);">{line}</span>' if (in_cali) else line
     line = f'<span style="background-color: yellow;">{line}</span>' if (on_watchlist) else line
     return line + "\n"
 
@@ -160,8 +161,9 @@ for link in internship_links + [k for k in internships if k not in internship_li
     text_subsection = ""
     for data in link_data["links"]:
         priority_entries = []
-        if data["company"].strip() in watchlist:  priority_entries.append(format(data, True))
-        else: text_subsection += format(data, False)
+        in_cali = any(match in data["location"] for match in ["CA", "California"])
+        if data["company"].strip() in watchlist:  priority_entries.append(format(data, True, in_cali))
+        else: text_subsection += format(data, False, in_cali)
 
         text_subsection = "".join(priority_entries) + text_subsection
 
