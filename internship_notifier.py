@@ -183,9 +183,6 @@ def make_message(recipient):
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
     server.login(USERNAME, PASSWORD)
-    for recipient in RECIPIENTS.split(","):
-
-        
-        server.sendmail(USERNAME, recipient, make_message(recipient))
+    for recipient in RECIPIENTS.split(","): server.sendmail(USERNAME, recipient, make_message(recipient.strip()))
 
 print(f"Message sent in {(perf_counter() - start_time):.3f} seconds")
