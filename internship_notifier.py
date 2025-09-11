@@ -21,7 +21,8 @@ GAP = 2
 DELIM = " " * GAP + "|" + " " * GAP
 
 WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
-SPACE = {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40}
+SPACE = {"akshat.wajge@gmail.com": {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40},
+         "nishad.wajge@gmail.com": {"title": 85, "company": 35, "date": 10, "location": 20, "tags": 55}}
 
 port = 465
 smtp_server = "smtp.gmail.com"
@@ -120,13 +121,13 @@ def add_internships(link, attempts=0):
 #    driver.set_window_size(1920, 1080)
 #    wait = WebDriverWait(driver, 20)
 
-def format(data, on_watchlist, in_cali):
-    link_sub = truncate(data["title"], SPACE["title"], False).strip()
-    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (SPACE["title"] - len(link_sub)) + DELIM) # clickable position title
-    line += truncate(data["company"], SPACE["company"])
-    line += truncate(data["date"], SPACE["date"])
-    line += truncate(data["location"], SPACE["location"])
-    line += truncate(", ".join(str(tag) for tag in data["tags"]), SPACE["tags"], False)
+def format(data, on_watchlist, in_cali, custom_space):
+    link_sub = truncate(data["title"], custom_space["title"], False).strip()
+    line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (custom_space["title"] - len(link_sub)) + DELIM) # clickable position title
+    line += truncate(data["company"], custom_space["company"])
+    line += truncate(data["date"], custom_space["date"])
+    line += truncate(data["location"], custom_space["location"])
+    line += truncate(", ".join(str(tag) for tag in data["tags"]), custom_space["tags"], False)
 
     line = f'<span style="background-color: #c8f7c5;">{line}</span>' if (in_cali) else line
     line = f'<span style="background-color: #fff8b3;">{line}</span>' if (on_watchlist) else line
@@ -154,32 +155,36 @@ with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
     except: watchlist = []
 
-message_text = ""
-for link in internship_links + [k for k in internships if k not in internship_links]:
-    try: link_data = internships[link]
-    except: continue
+def make_message(recipient):
+    message_text = ""
+    for link in internship_links + [k for k in internships if k not in internship_links]:
+        try: link_data = internships[link]
+        except: continue
 
-    text_subsection = ""
-    for data in link_data["links"]:
-        priority_entries = []
-        in_cali = any(match in data["location"] for match in ["CA", "California"])
-        if data["company"].strip() in watchlist:  priority_entries.append(format(data, True, in_cali))
-        else: text_subsection += format(data, False, in_cali)
+        text_subsection = ""
+        for data in link_data["links"]:
+            priority_entries = []
+            in_cali = any(match in data["location"] for match in ["CA", "California"])
+            if data["company"].strip() in watchlist:  priority_entries.append(format(data, True, in_cali, SPACE[recipient]))
+            else: text_subsection += format(data, False, in_cali, SPACE[recipient])
 
-        text_subsection = "".join(priority_entries) + text_subsection
+            text_subsection = "".join(priority_entries) + text_subsection
 
-    text_subsection = f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n' + text_subsection
-    message_text += text_subsection
+        text_subsection = f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n' + text_subsection
+        message_text += text_subsection
 
-message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
+    message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-message['Subject'] = f"Intern Bot 🤖 : {sum(len(data["links"]) for data in internships.values())} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
-message["From"] = USERNAME
-message["To"] = RECIPIENTS
+    message['Subject'] = f"Intern Bot 🤖 : {sum(len(data["links"]) for data in internships.values())} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
+    message["From"] = USERNAME
+    message["To"] = recipient
 
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
     server.login(USERNAME, PASSWORD)
-    server.sendmail(USERNAME, [e.strip() for e in RECIPIENTS.split(",")], message.as_string())
+    for recipient in RECIPIENTS.split(","):
+
+        
+        server.sendmail(USERNAME, recipient, make_message(recipient))
 
 print(f"Message sent in {(perf_counter() - start_time):.3f} seconds")
