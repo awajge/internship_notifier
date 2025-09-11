@@ -72,7 +72,6 @@ def add_internships(link, attempts=0):
 
     driver = webdriver.Chrome(options=options)
     driver.set_window_size(1920, 1080) # necessary for tags to be rendered
-    driver.implicitly_wait(20)
     wait = WebDriverWait(driver, 10)
 
     driver.get(link)
