@@ -127,8 +127,8 @@ def format(data, on_watchlist, in_cali):
     line += truncate(data["location"], SPACE["location"])
     line += truncate(", ".join(str(tag) for tag in data["tags"]), SPACE["tags"], False)
 
-    line = f'<span style="background-color: rgba(255, 255, 0, 0.5);">{line}</span>' if (in_cali) else line
-    line = f'<span style="background-color: yellow;">{line}</span>' if (on_watchlist) else line
+    line = f'<span style="background-color: #c8f7c5;">{line}</span>' if (in_cali) else line
+    line = f'<span style="background-color: #fff8b3;">{line}</span>' if (on_watchlist) else line
     return line + "\n"
 
 def truncate(string, num, part=True):
