@@ -80,8 +80,7 @@ def add_internships(link, attempts=0):
     list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
 
     airtable_url = driver.find_element(By.ID, "airtable-box").get_attribute("src")
-    try: driver.get(airtable_url)
-    except TimeoutError: add_internships(link, attempts+1)
+    driver.get(airtable_url)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.dataRow.rightPane.rowExpansionEnabled.rowSelectionEnabled")))
 
     scrollable = driver.find_element(By.CSS_SELECTOR, "div.antiscroll-inner")
