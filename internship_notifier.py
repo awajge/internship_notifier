@@ -72,9 +72,11 @@ def add_internships(link, attempts=1):
 
     driver = webdriver.Chrome(options=options)
     driver.set_window_size(1920, 1080) # necessary for tags to be rendered
+    driver.set_page_load_timeout(10)
     wait = WebDriverWait(driver, 10)
 
-    driver.get(link)
+    try: driver.get(link)
+    except: add_internships(link, attempts+1) 
     wait.until(EC.presence_of_element_located((By.ID, "airtable-box")))
 
     list_name = driver.find_element(By.CSS_SELECTOR, "h2.active").get_attribute("innerText")
@@ -113,7 +115,7 @@ def add_internships(link, attempts=1):
 
     internships[link] = {"category": list_name, "links": list(local_dict.values())}
 
-    print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds & {attempts} tries')
+    print(f'Thread of "{link}" processed in {(perf_counter() - start_time):.3f} seconds & {attempts} attempt(s)')
     driver.close()
 
 #def check_link(link):
