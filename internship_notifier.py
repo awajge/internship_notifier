@@ -127,7 +127,7 @@ def format(data, on_watchlist):
     line += truncate(data["location"], SPACE["location"])
     line += truncate(", ".join(str(tag) for tag in data["tags"]), SPACE["tags"], False)
 
-    line = f"<mark>{line}</mark>" if (on_watchlist) else line
+    line = f'<span style="background-color: yellow;">{line}</span>' if (on_watchlist) else line
     return line + "\n"
 
 def truncate(string, num, part=True):
