@@ -123,7 +123,7 @@ def add_internships(link, attempts=1):
 #    driver.set_window_size(1920, 1080)
 #    wait = WebDriverWait(driver, 20)
 
-def format(data, on_watchlist, in_cali, custom_space):
+def format(data, custom_space, on_watchlist, in_cali):
     link_sub = truncate(data["title"], custom_space["title"], False).strip()
     line = (f'<a href="{data["apply_link"]}" target="_blank">{link_sub}</a>') + (' ' * (custom_space["title"] - len(link_sub)) + DELIM) # clickable position title
     line += truncate(data["company"], custom_space["company"])
@@ -131,8 +131,9 @@ def format(data, on_watchlist, in_cali, custom_space):
     line += truncate(data["location"], custom_space["location"])
     line += truncate(", ".join(str(tag) for tag in data["tags"]), custom_space["tags"], False)
 
-    line = f'<span style="background-color: #c8f7c5;">{line}</span>' if (in_cali) else line
     line = f'<span style="background-color: #fff8b3;">{line}</span>' if (on_watchlist) else line
+    line = f'<span style="background-color: #c8f7c5;">{line}</span>' if (in_cali) else line
+
     return line + "\n"
 
 def truncate(string, num, part=True):
@@ -166,11 +167,17 @@ def make_message(recipient):
         text_subsection = ""
         for data in link_data["links"]:
             priority_entries = []
-            in_cali = any(match in data["location"] for match in ["CA", "California"])
-            if data["company"].strip() in watchlist:  priority_entries.append(format(data, True, in_cali, SPACE[recipient]))
-            else: text_subsection += format(data, False, in_cali, SPACE[recipient])
+            instate_entries = []
+            regular_entries = []
 
-            text_subsection = "".join(priority_entries) + text_subsection
+            on_watchlist = data["company"].strip() in watchlist
+            in_cali = any(match in data["location"] for match in ["CA", "California"])
+
+            priority_entries if on_watchlist else (instate_entries if in_cali else regular_entries).append(format(data, SPACE[recipient], on_watchlist, in_cali))
+
+            text_subsection += "".join(priority_entries)
+            text_subsection += "".join(instate_entries)
+            text_subsection += "".join(regular_entries)
 
         text_subsection = f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n' + text_subsection
         message_text += text_subsection
@@ -187,5 +194,4 @@ context = ssl.create_default_context()
 with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
     server.login(USERNAME, PASSWORD)
     for recipient in RECIPIENTS.split(","): server.sendmail(USERNAME, recipient, make_message(recipient.strip()))
-
-print(f"Message sent in {(perf_counter() - start_time):.3f} seconds")
+    print(f"Message sent to {recipient} in {(perf_counter() - start_time):.3f} seconds")
