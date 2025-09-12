@@ -103,7 +103,7 @@ def add_internships(link, attempts=1):
         row_data = append_data(driver, row)
 
                                             # testing purposes: (len(local_dict) == 10 and stop_data == []) or 
-        if (row_data["apply_link"] in stop_data) or (len(local_dict) == 10 and stop_data == []) or (len(local_dict) == MAX_ITERATIONS):
+        if (row_data["apply_link"] in stop_data) or (len(local_dict) == MAX_ITERATIONS):
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
             local_dict[row.get_attribute("data-rowid")] = row_data
@@ -177,7 +177,7 @@ def make_message(recipient):
         text_subsection += "".join(priority_entries)
         text_subsection += "".join(instate_entries)
         text_subsection += "".join(regular_entries)
-        
+
         text_subsection = f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n' + text_subsection
         message_text += text_subsection
 
