@@ -175,9 +175,9 @@ def make_message(recipient):
 
             priority_entries if on_watchlist else (instate_entries if in_cali else regular_entries).append(format(data, SPACE[recipient], on_watchlist, in_cali))
 
-            text_subsection += "".join(regular_entries)
-            text_subsection += "".join(instate_entries)
             text_subsection += "".join(priority_entries)
+            text_subsection += "".join(instate_entries)
+            text_subsection += "".join(regular_entries)
             
         text_subsection = f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n' + text_subsection
         message_text += text_subsection
