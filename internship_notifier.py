@@ -165,11 +165,10 @@ def make_message(recipient):
         except: continue
 
         text_subsection = ""
+        priority_entries = []
+        instate_entries = []
+        regular_entries = []
         for data in link_data["links"]:
-            priority_entries = []
-            instate_entries = []
-            regular_entries = []
-
             on_watchlist = data["company"].strip() in watchlist
             in_cali = any(match in data["location"] for match in ["CA", "California"])
 
