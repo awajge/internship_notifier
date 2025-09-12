@@ -173,7 +173,7 @@ def make_message(recipient):
             on_watchlist = data["company"].strip() in watchlist
             in_cali = any(match in data["location"] for match in ["CA", "California"])
 
-            priority_entries if on_watchlist else (instate_entries if in_cali else regular_entries).append(format(data, SPACE[recipient], on_watchlist, in_cali))
+            (priority_entries if on_watchlist else (instate_entries if in_cali else regular_entries)).append(format(data, SPACE[recipient], on_watchlist, in_cali))
 
             text_subsection += "".join(priority_entries)
             text_subsection += "".join(instate_entries)
