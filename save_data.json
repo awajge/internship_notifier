@@ -13,19 +13,19 @@
         "https://jobright.ai/jobs/info/68ad48f2daf1431824c9bf2e?utm_source=1099&utm_campaign=Consulting",
         "https://jobright.ai/jobs/info/68acacd9d627244576e47db1?utm_source=1099&utm_campaign=Consulting"
     ],
-    "https://www.intern-list.com/?k=aiml": [
-        "https://jobright.ai/jobs/info/68c9a171a0c52d598ea393ba?utm_source=1099&utm_campaign=ml",
-        "https://jobright.ai/jobs/info/68c9a11af9c6ff7aedf1bad6?utm_source=1099&utm_campaign=ml",
-        "https://jobright.ai/jobs/info/68c9a104f9c6ff7aedf1ba7e?utm_source=1099&utm_campaign=ml",
-        "https://jobright.ai/jobs/info/68c9a072a0c52d598ea39217?utm_source=1099&utm_campaign=ml",
-        "https://jobright.ai/jobs/info/68c9931595f5211cd2cf1c09?utm_source=1099&utm_campaign=ml"
-    ],
     "https://www.intern-list.com/?k=da": [
         "https://jobright.ai/jobs/info/68c9a13ea0c52d598ea3936f?utm_source=1099&utm_campaign=Data%20Analysis",
         "https://jobright.ai/jobs/info/68c99faaa0c52d598ea39083?utm_source=1099&utm_campaign=Data%20Analysis",
         "https://jobright.ai/jobs/info/68c993cfa0c52d598ea38bf7?utm_source=1099&utm_campaign=Data%20Analysis",
         "https://jobright.ai/jobs/info/68c9930a95f5211cd2cf1bd6?utm_source=1099&utm_campaign=Data%20Analysis",
         "https://jobright.ai/jobs/info/68c98b49a0c52d598ea384bd?utm_source=1099&utm_campaign=Data%20Analysis"
+    ],
+    "https://www.intern-list.com/?k=aiml": [
+        "https://jobright.ai/jobs/info/68c9a171a0c52d598ea393ba?utm_source=1099&utm_campaign=ml",
+        "https://jobright.ai/jobs/info/68c9a11af9c6ff7aedf1bad6?utm_source=1099&utm_campaign=ml",
+        "https://jobright.ai/jobs/info/68c9a104f9c6ff7aedf1ba7e?utm_source=1099&utm_campaign=ml",
+        "https://jobright.ai/jobs/info/68c9a072a0c52d598ea39217?utm_source=1099&utm_campaign=ml",
+        "https://jobright.ai/jobs/info/68c9931595f5211cd2cf1c09?utm_source=1099&utm_campaign=ml"
     ],
     "https://www.intern-list.com/?k=ba": [
         "https://jobright.ai/jobs/info/68c9883495f5211cd2cf141d?utm_source=1099&utm_campaign=Business%20Analyst",
@@ -35,10 +35,10 @@
         "https://jobright.ai/jobs/info/68c8fdb1f9c6ff7aedf15f0d?utm_source=1099&utm_campaign=Business%20Analyst"
     ],
     "https://www.intern-list.com/": [
-        "https://jobright.ai/jobs/info/68c9a154f9c6ff7aedf1bb95?utm_source=1099&utm_campaign=Software%20Engineer",
-        "https://jobright.ai/jobs/info/68c9a0d9f9c6ff7aedf1b9e7?utm_source=1099&utm_campaign=Software%20Engineer",
-        "https://jobright.ai/jobs/info/68c9a060a0c52d598ea391f6?utm_source=1099&utm_campaign=Software%20Engineer",
-        "https://jobright.ai/jobs/info/68c9995c95f5211cd2cf1f43?utm_source=1099&utm_campaign=Software%20Engineer",
-        "https://jobright.ai/jobs/info/68c99326a0c52d598ea38b22?utm_source=1099&utm_campaign=Software%20Engineer"
+        "https://jobright.ai/jobs/info/68c9bdc4f9c6ff7aedf1d18e?utm_source=1099&utm_campaign=Software%20Engineer",
+        "https://jobright.ai/jobs/info/68c9bbbea0c52d598ea3a911?utm_source=1099&utm_campaign=Software%20Engineer",
+        "https://jobright.ai/jobs/info/68c9b87a95f5211cd2cf340c?utm_source=1099&utm_campaign=Software%20Engineer",
+        "https://jobright.ai/jobs/info/68c9b50aa0c52d598ea3a4c9?utm_source=1099&utm_campaign=Software%20Engineer",
+        "https://jobright.ai/jobs/info/68c9b4c5a0c52d598ea3a419?utm_source=1099&utm_campaign=Software%20Engineer"
     ]
 }
