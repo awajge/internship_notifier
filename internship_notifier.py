@@ -4,8 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from time import perf_counter, time, localtime, strftime, sleep
+from time import perf_counter, time, localtime, strftime
 from re import sub
 from threading import Thread
 from email.mime.text import MIMEText
