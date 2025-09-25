@@ -62,7 +62,7 @@ def append_data(driver, row): # data to be emailed
     return {"title": title, "company": company, "date": date, "location": location, "tags": tags, "apply_link": apply_link}
 
 def find_columnindex(driver, category): # column indexes differ per page
-    return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../..").get_attribute("data-columnindex")
+    return driver.find_element(By.XPATH, f'//div[text()="{category}"]').find_element(By.XPATH, "../../../../../..").get_attribute("data-columnindex")
 
 def add_internships(link, attempts=1):
     with open("save_data.json", "r") as f: # migrate out of function?
