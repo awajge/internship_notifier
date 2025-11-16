@@ -130,8 +130,8 @@ def format(data, custom_space, on_watchlist, in_cali):
     line += truncate(data["location"], custom_space["location"])
     line += truncate(", ".join(str(tag) for tag in data["tags"]), custom_space["tags"], False)
 
-    line = f'<span style="background-color: #fff8b3;">{line}</span>' if (on_watchlist) else line
-    line = f'<span style="background-color: #c8f7c5;">{line}</span>' if (in_cali) else line
+    line = f'<span style="background-color: #c8f7c5;">{line}</span>' if (on_watchlist) else line
+    line = f'<span style="background-color: #fff8b3;">{line}</span>' if (in_cali) else line
 
     return line + "\n"
 
