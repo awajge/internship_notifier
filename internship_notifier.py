@@ -14,7 +14,7 @@ import json
 start_time = perf_counter()
 
 HEIGHT = 32
-MAX_ITERATIONS = 75 # failsafe if stop_rowid = [], DEFAULT: 75 TESTING: 10
+MAX_ITERATIONS = 25 # failsafe if stop_rowid = [], DEFAULT: 75 TESTING: 10
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 2
 DELIM = " " * GAP + "|" + " " * GAP
@@ -150,8 +150,8 @@ for link in internship_links:
 
 [t.join() for t in threads] # waits until all threads finish
 
-with open("save_data.json", "w") as f:
-    json.dump(save_data, f, indent=4)
+#with open("save_data.json", "w") as f:
+    #json.dump(save_data, f, indent=4)
 
 with open("watchlist.json", "r") as f:
     try: watchlist = json.load(f)
@@ -174,8 +174,8 @@ def make_message(recipient):
             (priority_entries if on_watchlist else (instate_entries if in_cali else regular_entries)).append(format(data, SPACE[recipient], on_watchlist, in_cali))
 
         text_subsection += "".join(priority_entries)
-        text_subsection += "".join(instate_entries)
-        text_subsection += "".join(regular_entries)
+        text_subsection += "\n".join(instate_entries)
+        text_subsection += "\n".join(regular_entries)
 
         text_subsection = f'\n===== From: <a href="{link}" target="_blank">{sub(r"[^a-zA-Z0-9 ]+", "", link_data["category"]).strip()}</a> ({len(link_data["links"])}) =====\n\n' + text_subsection
         message_text += text_subsection
