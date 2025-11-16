@@ -20,7 +20,7 @@ jobs:
 
       - uses: browser-actions/setup-chrome@v2
         with:
-          chrome-version: 139
+          # chrome-version:
           install-chromedriver: true
           install-dependencies: true
 
