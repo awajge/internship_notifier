@@ -14,7 +14,7 @@ import json
 start_time = perf_counter()
 
 HEIGHT = 32
-MAX_ITERATIONS = 75 # failsafe if stop_rowid = []
+MAX_ITERATIONS = 10 # failsafe if stop_rowid = [], DEFAULT: 75 TESTING: 10
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 2
 DELIM = " " * GAP + "|" + " " * GAP
@@ -66,7 +66,7 @@ def find_columnindex(driver, category): # column indexes differ per page
 
 def add_internships(link, attempts=1):
     with open("save_data.json", "r") as f: # migrate out of function?
-        try: stop_data = json.load(f)[link]["links"]
+        try: stop_data = json.load(f)[link]
         except: stop_data = []
 
     driver = webdriver.Chrome(options=options)
@@ -182,7 +182,7 @@ def make_message(recipient):
 
     message = MIMEText(f'<pre style="font-family: monospace;">{message_text}</pre>', 'html')
 
-    message['Subject'] = f"Intern Bot 🤖 : {sum(len(data["links"]) for data in internships.values())} internships found on {strftime("%m/%d/%Y", localtime(time()))}"
+    message['Subject'] = f"Intern Bot 🤖 : {sum(len(data['links']) for data in internships.values())} internships found on {strftime('%m/%d/%Y', localtime(time()))}"
     message["From"] = USERNAME
     message["To"] = recipient
 
