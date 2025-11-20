@@ -14,7 +14,7 @@ import json
 start_time = perf_counter()
 
 HEIGHT = 32
-MAX_ITERATIONS = 25 # failsafe if stop_rowid = [], DEFAULT: 75 TESTING: 10
+MAX_ITERATIONS = 75 # failsafe if stop_rowid = [], DEFAULT: 75 TESTING: 10
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 2
 DELIM = " " * GAP + "|" + " " * GAP
