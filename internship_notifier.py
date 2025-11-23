@@ -48,8 +48,8 @@ def work(driver, link):
     driver.get(link)
     wait = WebDriverWait(driver, 10)
 
-    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "index_origin__7NnDG")))
-    return driver.find_element(By.CLASS_NAME, "index_origin__7NnDG").get_attribute("href")
+    wait.until(EC.presence_of_element_located((By.ID, "jobright-helper-job-detail-info")))
+    return json.loads(driver.find_element(By.CLASS_NAME, "jobright-helper-job-detail-info").get_attribute("innerText"))["jobResult"]["originalUrl"]
 
 def get_innertext(driver, row, category, div_class="truncate", multiple=False): # multiple=True means a list
     matches = [
