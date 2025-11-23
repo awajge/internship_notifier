@@ -14,7 +14,7 @@ import json
 start_time = perf_counter()
 
 HEIGHT = 32
-MAX_ITERATIONS = 75 # failsafe if stop_rowid = [], DEFAULT: 75 TESTING: 10
+MAX_ITERATIONS = 10 # failsafe if stop_rowid = [], DEFAULT: 75 TESTING: 10
 SAVE_ROWS = 5 # rows to save for to check aganist for next run
 GAP = 2
 DELIM = " " * GAP + "|" + " " * GAP
@@ -36,6 +36,20 @@ options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
+
+def new_driver():
+    driver = webdriver.Chrome(options=options)
+    driver.set_window_size(1920, 1080) # necessary for tags to be rendered
+    driver.set_page_load_timeout(10)
+
+    return driver
+
+def work(driver, link):
+    driver.get(link)
+    wait = WebDriverWait(driver, 10)
+
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "index_origin__7NnDG")))
+    return driver.find_element(By.CLASS_NAME, "index_origin__7NnDG").get_attribute("href")
 
 def get_innertext(driver, row, category, div_class="truncate", multiple=False): # multiple=True means a list
     matches = [
@@ -105,6 +119,7 @@ def add_internships(link, attempts=1):
         if (row_data["apply_link"] in stop_data) or (len(local_dict) == MAX_ITERATIONS):
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
+            row_data["apply_link"] = work(driver, row_data["apply_link"])
             local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
@@ -141,6 +156,9 @@ def truncate(string, num, part=True):
 with open("links.json", "r") as f:
     try: internship_links = json.load(f) # internships_links doubles as the priority list (is sorted)
     except: internship_links = []
+
+queue_drivers = [new_driver() for _ in internship_links]
+queue_links = {i: [] for i in internship_links}
 
 threads = []
 for link in internship_links:
