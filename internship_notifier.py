@@ -119,11 +119,10 @@ def add_internships(link, attempts=1):
         if (row_data["apply_link"] in stop_data) or (len(local_dict) == MAX_ITERATIONS):
             finished = True # switch while loop condition?
         elif get_innertext(driver, row, "Company Size", "flex-auto.truncate-pre") in WHITELIST_SIZES:
-            row_data["apply_link"] = work(driver, row_data["apply_link"])
+            row_data["apply_link"] = work(queue[link], row_data["apply_link"])
             local_dict[row.get_attribute("data-rowid")] = row_data
         
         row_count += 1
-
 
     save_data[link] = ([r["apply_link"] for r in list(local_dict.values())[:SAVE_ROWS]] + stop_data)[:SAVE_ROWS] # saves the most recent rows
 
@@ -157,8 +156,7 @@ with open("links.json", "r") as f:
     try: internship_links = json.load(f) # internships_links doubles as the priority list (is sorted)
     except: internship_links = []
 
-queue_drivers = [new_driver() for _ in internship_links]
-queue_links = {i: [] for i in internship_links}
+queue = {i: new_driver() for i in internship_links}
 
 threads = []
 for link in internship_links:
