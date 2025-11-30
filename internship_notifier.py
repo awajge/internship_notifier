@@ -20,8 +20,9 @@ GAP = 2
 DELIM = " " * GAP + "|" + " " * GAP
 
 WHITELIST_SIZES = ('1001-5000', '5001-10000', '10000+')
-SPACE = {"akshat.wajge@gmail.com": {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40},
-         "nishad.wajge@gmail.com": {"title": 85, "company": 35, "date": 10, "location": 20, "tags": 55}}
+# SPACE = {"akshat.wajge@gmail.com": {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40},
+#          "nishad.wajge@gmail.com": {"title": 85, "company": 35, "date": 10, "location": 20, "tags": 55}}
+SPACE = {"akshat.wajge@gmail.com": {"title": 60, "company": 25, "date": 10, "location": 20, "tags": 40}}
 
 port = 465
 smtp_server = "smtp.gmail.com"
