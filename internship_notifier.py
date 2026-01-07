@@ -49,7 +49,8 @@ def work(driver, link):
     wait = WebDriverWait(driver, 10)
 
     wait.until(EC.presence_of_element_located((By.ID, "jobright-helper-job-detail-info")))
-    return json.loads(driver.find_element(By.CLASS_NAME, "jobright-helper-job-detail-info").get_attribute("innerText"))["jobResult"]["originalUrl"]
+    print(json.loads(driver.find_element(By.ID, "jobright-helper-job-detail-info").get_attribute("innerText"))["jobResult"])
+    return json.loads(driver.find_element(By.ID, "jobright-helper-job-detail-info").get_attribute("innerText"))["jobResult"]["applyLink"]
 
 def get_innertext(driver, row, category, div_class="truncate", multiple=False): # multiple=True means a list
     matches = [
@@ -207,5 +208,7 @@ def make_message(recipient):
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
     server.login(USERNAME, PASSWORD)
-    for recipient in RECIPIENTS.split(","): server.sendmail(USERNAME, recipient, make_message(recipient.strip()))
+    for recipient in RECIPIENTS.split(","):
+        if recipient != "nishad.wajge@gmail.com":
+            server.sendmail(USERNAME, recipient, make_message(recipient.strip()))
     print(f"Message sent to {recipient} in {(perf_counter() - start_time):.3f} seconds")
